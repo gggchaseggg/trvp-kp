@@ -7,6 +7,8 @@ import Main from "./pages/Main.tsx";
 import Article from "./pages/Article.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
+import CreateArticle from "./pages/CreateArticle.tsx";
+import AdminPanel from "./pages/AdminPanel.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -17,6 +19,8 @@ createRoot(document.getElementById('root')!).render(
                     <Route path={'/article/:id'} element={<Article/>}/>
                     <Route path={'/login'} element={<Login/>}/>
                     <Route path={'/register'} element={<Register/>}/>
+                    <Route path={'/create-article'} element={<CreateArticle/>}/>
+                    <Route path={'/admin'} element={<AdminPanel/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
