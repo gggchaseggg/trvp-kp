@@ -1,12 +1,14 @@
-import { Button, Card, FormControl, FormLabel, Input, Stack, Textarea, Typography } from "@mui/joy";
-import { useState } from "react";
-import { observer } from "mobx-react-lite";
-import { userStore } from "../stores/userStore";
-import { Navigate } from "react-router";
-import { parseTags } from "../shared/text";
+import {Button, Card, FormControl, FormLabel, Input, Stack, Textarea, Typography} from "@mui/joy";
+import {useState} from "react";
+import {observer} from "mobx-react-lite";
+import {userStore} from "../stores/userStore";
+import {Navigate, useNavigate} from "react-router";
+import {parseTags} from "../shared/text";
+import axios from "axios";
 
 const CreateArticle = observer(() => {
-  const { user } = userStore;
+  const navigate = useNavigate();
+  const {user} = userStore;
 
   const isWriter = !!user && user.role === "writer";
 
@@ -15,20 +17,29 @@ const CreateArticle = observer(() => {
   const [tags, setTags] = useState("");
 
   if (!isWriter) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace/>;
   }
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     const payload = {
       title,
       text,
       tags: parseTags(tags),
     };
-    console.log("Create article payload:", payload);
+    await axios.post(
+      'http://localhost:3000/writer/createArticle',
+      payload,
+      {
+        headers: {
+          'x-user-login': user.login,
+        },
+      }
+    )
+    navigate('/')
   };
 
   return (
-    <Stack sx={{ maxWidth: 800, mx: "auto", px: 2 }} spacing={2}>
+    <Stack sx={{maxWidth: 800, mx: "auto", px: 2}} spacing={2}>
       <Typography level="h2">Новая статья</Typography>
       <Card>
         <Stack spacing={2}>

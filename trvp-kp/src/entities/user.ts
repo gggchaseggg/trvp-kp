@@ -2,7 +2,7 @@ export type UserEntity = {
   id: string;
   login: string;
   role: "reader" | "writer" | "admin";
-  registeredAt: string; // ISO date
+  registeredAt: string;
 };
 
 export const usersMock: UserEntity[] = [
